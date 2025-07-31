@@ -1,16 +1,19 @@
-import { Home, Search, Wallet, Trophy, User } from "lucide-react";
+import { Home, Search, Plus, Trophy, User } from "lucide-react";
 import { useLocation } from "wouter";
 import { Link } from "wouter";
+
+interface BottomNavigationProps {
+  onCreateClick?: () => void;
+}
 
 const navigationItems = [
   { icon: Home, label: "Feed", path: "/" },
   { icon: Search, label: "Explore", path: "/explore" },
-  { icon: Wallet, label: "Wallet", path: "/wallet" },
   { icon: Trophy, label: "Rankings", path: "/leaderboard" },
   { icon: User, label: "Profile", path: "/profile" },
 ];
 
-export function BottomNavigation() {
+export function BottomNavigation({ onCreateClick }: BottomNavigationProps) {
   const [location] = useLocation();
 
   return (
@@ -29,6 +32,17 @@ export function BottomNavigation() {
             </Link>
           );
         })}
+        
+        {/* Create Button */}
+        <button 
+          onClick={onCreateClick}
+          className="flex flex-col items-center py-2 px-3 text-gray-400 hover:text-gray-600"
+        >
+          <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center mb-1">
+            <Plus size={18} className="text-white" />
+          </div>
+          <span className="text-xs font-medium">Create</span>
+        </button>
       </div>
     </nav>
   );

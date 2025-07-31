@@ -1,6 +1,8 @@
 import { Trophy, Medal, Award, Crown } from "lucide-react";
+import { useState } from "react";
 import { TopNavigation } from "@/components/top-navigation";
 import { BottomNavigation } from "@/components/bottom-navigation";
+import { CreateClaimModal } from "@/components/create-claim-modal";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +12,7 @@ export default function Leaderboard() {
   const { data: topUsers, isLoading } = useQuery<User[]>({
     queryKey: ["/api/leaderboard"],
   });
+  const [createClaimOpen, setCreateClaimOpen] = useState(false);
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
@@ -167,7 +170,12 @@ export default function Leaderboard() {
         </div>
       </main>
 
-      <BottomNavigation />
+      <BottomNavigation onCreateClick={() => setCreateClaimOpen(true)} />
+      
+      <CreateClaimModal 
+        isOpen={createClaimOpen}
+        onClose={() => setCreateClaimOpen(false)}
+      />
     </div>
   );
 }

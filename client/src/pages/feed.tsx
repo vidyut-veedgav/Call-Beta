@@ -148,7 +148,7 @@ export default function Feed() {
         </div>
       </main>
 
-      <BottomNavigation />
+      <BottomNavigation onCreateClick={() => setCreateClaimOpen(true)} />
       
       <CreateClaimModal 
         isOpen={createClaimOpen}
