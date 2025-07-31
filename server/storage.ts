@@ -63,56 +63,161 @@ export class MemStorage implements IStorage {
     };
     this.users.set(defaultUser.id, defaultUser);
 
-    // Create sample claims
+    // Create additional sample users
+    const sampleUsers = [
+      {
+        id: randomUUID(),
+        username: "cryptoOracle",
+        tokenBalance: 1250,
+        accuracyScore: "78.50",
+        totalBets: 15,
+        totalWins: 12,
+        totalLosses: 3,
+        joinDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+      },
+      {
+        id: randomUUID(),
+        username: "techPredictor",
+        tokenBalance: 890,
+        accuracyScore: "65.20",
+        totalBets: 23,
+        totalWins: 15,
+        totalLosses: 8,
+        joinDate: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000), // 45 days ago
+      },
+      {
+        id: randomUUID(),
+        username: "marketWatch",
+        tokenBalance: 1580,
+        accuracyScore: "82.10",
+        totalBets: 31,
+        totalWins: 25,
+        totalLosses: 6,
+        joinDate: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000), // 60 days ago
+      },
+      {
+        id: randomUUID(),
+        username: "politicsGuru",
+        tokenBalance: 720,
+        accuracyScore: "59.30",
+        totalBets: 18,
+        totalWins: 11,
+        totalLosses: 7,
+        joinDate: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000), // 25 days ago
+      },
+      {
+        id: randomUUID(),
+        username: "streamingAnalyst",
+        tokenBalance: 1120,
+        accuracyScore: "71.40",
+        totalBets: 28,
+        totalWins: 20,
+        totalLosses: 8,
+        joinDate: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000), // 40 days ago
+      },
+    ];
+
+    sampleUsers.forEach(userData => {
+      this.users.set(userData.id, userData as User);
+    });
+
+    // Create sample claims with more engaging content
     const sampleClaims: InsertClaim[] = [
       {
-        text: "Bitcoin will reach $80,000 before the end of 2024",
-        creatorId: defaultUser.id,
+        text: "Bitcoin will reach $80,000 before March 1st, 2025",
+        creatorId: sampleUsers[0].id,
         creatorUsername: "cryptoOracle",
-        expiresAt: new Date("2024-12-31"),
+        expiresAt: new Date("2025-03-01"),
         status: "open",
       },
       {
-        text: "Apple will announce a foldable iPhone at WWDC 2024",
-        creatorId: defaultUser.id,
+        text: "Apple will announce a foldable iPhone at WWDC 2025",
+        creatorId: sampleUsers[1].id,
         creatorUsername: "techPredictor",
-        expiresAt: new Date("2024-06-15"),
+        expiresAt: new Date("2025-06-15"),
         status: "open",
       },
       {
-        text: "Donald Trump will win the 2024 presidential election",
-        creatorId: defaultUser.id,
-        creatorUsername: "politicsGuru",
-        expiresAt: new Date("2024-11-05"),
+        text: "Elon Musk will step down as Tesla CEO by end of 2025",
+        creatorId: sampleUsers[2].id,
+        creatorUsername: "marketWatch",
+        expiresAt: new Date("2025-12-31"),
         status: "open",
       },
       {
-        text: "Netflix subscriber count will exceed 250 million by end of 2024",
-        creatorId: defaultUser.id,
+        text: "Netflix will launch a gaming subscription service by Q3 2025",
+        creatorId: sampleUsers[4].id,
         creatorUsername: "streamingAnalyst",
-        expiresAt: new Date("2024-12-31"),
+        expiresAt: new Date("2025-09-30"),
+        status: "open",
+      },
+      {
+        text: "ChatGPT will reach 200 million monthly users by summer 2025",
+        creatorId: sampleUsers[1].id,
+        creatorUsername: "techPredictor",
+        expiresAt: new Date("2025-08-31"),
+        status: "open",
+      },
+      {
+        text: "SpaceX will successfully land humans on Mars by 2030",
+        creatorId: sampleUsers[0].id,
+        creatorUsername: "cryptoOracle",
+        expiresAt: new Date("2030-12-31"),
+        status: "open",
+      },
+      {
+        text: "Amazon stock will hit $200 by June 2025",
+        creatorId: sampleUsers[2].id,
+        creatorUsername: "marketWatch",
+        expiresAt: new Date("2025-06-30"),
+        status: "open",
+      },
+      {
+        text: "TikTok will be banned in the US by end of 2025",
+        creatorId: sampleUsers[3].id,
+        creatorUsername: "politicsGuru",
+        expiresAt: new Date("2025-12-31"),
+        status: "open",
+      },
+      {
+        text: "Meta will release a consumer VR headset under $300 in 2025",
+        creatorId: sampleUsers[1].id,
+        creatorUsername: "techPredictor",
+        expiresAt: new Date("2025-12-31"),
+        status: "open",
+      },
+      {
+        text: "Dogecoin will reach $1 before end of 2025",
+        creatorId: sampleUsers[0].id,
+        creatorUsername: "cryptoOracle",
+        expiresAt: new Date("2025-12-31"),
         status: "open",
       },
       {
         text: "Tesla stock will hit $300 by October 2024",
-        creatorId: defaultUser.id,
+        creatorId: sampleUsers[2].id,
         creatorUsername: "marketWatch",
         expiresAt: new Date("2024-10-31"),
         status: "expired",
       },
     ];
 
-    sampleClaims.forEach(claimData => {
+    sampleClaims.forEach((claimData, index) => {
+      const daysAgo = Math.floor(Math.random() * 7) + 1; // 1-7 days ago
+      const baseStake = [500, 1200, 800, 300, 950, 1800, 600, 400, 700, 1100, 200][index] || 500;
+      const yesStake = baseStake + Math.floor(Math.random() * 1000);
+      const noStake = baseStake + Math.floor(Math.random() * 1000);
+      
       const claim: Claim = {
         ...claimData,
         id: randomUUID(),
-        totalYesBets: Math.floor(Math.random() * 200) + 50,
-        totalNoBets: Math.floor(Math.random() * 200) + 50,
-        totalYesStake: Math.floor(Math.random() * 10000) + 2000,
-        totalNoStake: Math.floor(Math.random() * 10000) + 2000,
-        totalBettors: Math.floor(Math.random() * 500) + 100,
+        totalYesBets: Math.floor(yesStake / 50) + Math.floor(Math.random() * 20),
+        totalNoBets: Math.floor(noStake / 50) + Math.floor(Math.random() * 20),
+        totalYesStake: yesStake,
+        totalNoStake: noStake,
+        totalBettors: Math.floor((yesStake + noStake) / 80) + Math.floor(Math.random() * 50),
         resolutionOutcome: null,
-        createdAt: new Date(),
+        createdAt: new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000),
       };
       this.claims.set(claim.id, claim);
     });
