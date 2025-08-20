@@ -1,11 +1,10 @@
-import { User, Trophy, Target, TrendingUp, Wallet as WalletIcon, TrendingDown, History, Plus } from "lucide-react";
+import { User, Trophy, Target, TrendingUp, Wallet as WalletIcon, TrendingDown, History } from "lucide-react";
 import { TopNavigation } from "@/components/top-navigation";
 import { BottomNavigation } from "@/components/bottom-navigation";
 import { useCurrentUser } from "@/hooks/use-user";
 import { useUserBets } from "@/hooks/use-bets";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
 export default function Profile() {
   const { data: user, isLoading } = useCurrentUser();
@@ -98,7 +97,7 @@ export default function Profile() {
             {user?.username || "Anonymous User"}
           </h1>
           <Badge variant="secondary" className="mb-4">
-            Member since {user?.joinDate ? new Date(user.joinDate).toLocaleDateString() : "Unknown"}
+            Joined {user?.joinDate ? new Date(user.joinDate).toLocaleDateString() : "Unknown"}
           </Badge>
         </div>
 
@@ -119,21 +118,6 @@ export default function Profile() {
               </CardContent>
             </Card>
           ))}
-        </div>
-
-        {/* Quick Actions */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-2 gap-3">
-            <Button variant="outline" className="h-16 flex flex-col items-center space-y-2">
-              <Plus size={20} />
-              <span className="text-sm">Add Tokens</span>
-            </Button>
-            <Button variant="outline" className="h-16 flex flex-col items-center space-y-2">
-              <History size={20} />
-              <span className="text-sm">View History</span>
-            </Button>
-          </div>
         </div>
 
         {/* Recent Transactions */}
@@ -206,33 +190,6 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Achievement Badges */}
-        <div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Achievements</h2>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg p-4 text-center">
-              <Trophy className="text-yellow-600 mx-auto mb-2" size={24} />
-              <div className="text-sm font-medium text-yellow-800">First Bet</div>
-              <div className="text-xs text-yellow-600">Placed your first prediction</div>
-            </div>
-            
-            {user && user.totalBets >= 10 && (
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 text-center">
-                <Target className="text-blue-600 mx-auto mb-2" size={24} />
-                <div className="text-sm font-medium text-blue-800">Active Predictor</div>
-                <div className="text-xs text-blue-600">Made 10+ predictions</div>
-              </div>
-            )}
-            
-            {winRate >= 70 && (
-              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 text-center">
-                <TrendingUp className="text-green-600 mx-auto mb-2" size={24} />
-                <div className="text-sm font-medium text-green-800">Accurate Oracle</div>
-                <div className="text-xs text-green-600">70%+ win rate</div>
-              </div>
-            )}
-          </div>
-        </div>
       </main>
 
       <BottomNavigation />

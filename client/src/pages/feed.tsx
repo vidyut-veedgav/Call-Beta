@@ -1,10 +1,8 @@
 import { Flame, Plus, TrendingUp } from "lucide-react";
-import { useState } from "react";
 import { TopNavigation } from "@/components/top-navigation";
 import { BottomNavigation } from "@/components/bottom-navigation";
 import { ClaimCard } from "@/components/claim-card";
 import { ResolutionCard } from "@/components/resolution-card";
-import { CreateClaimModal } from "@/components/create-claim-modal";
 import { useActiveClaims } from "@/hooks/use-claims";
 import { useCurrentUser } from "@/hooks/use-user";
 import { useUserBets } from "@/hooks/use-bets";
@@ -15,7 +13,6 @@ export default function Feed() {
   const { data: claims, isLoading: claimsLoading } = useActiveClaims();
   const { data: user } = useCurrentUser();
   const { data: userBets } = useUserBets(user?.id || "");
-  const [createClaimOpen, setCreateClaimOpen] = useState(false);
 
   const getUserBetForClaim = (claimId: string) => {
     if (!userBets) return null;
@@ -82,39 +79,6 @@ export default function Feed() {
 
 
       <main className="pb-20">
-        {/* Create Claim & Hot Markets Section */}
-        <div className="px-4 py-4 bg-gradient-to-r from-indigo-50 to-purple-50">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-              <Flame className="mr-2 text-orange-500" size={20} />
-              Hot Markets
-            </h2>
-            <Button 
-              size="sm" 
-              onClick={() => setCreateClaimOpen(true)}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1"
-            >
-              <Plus size={14} className="mr-1" />
-              Create
-            </Button>
-          </div>
-          <div className="flex space-x-3 overflow-x-auto pb-2">
-            {hotMarkets.map((market, index) => (
-              <div key={index} className="bg-white rounded-lg px-3 py-2 min-w-max shadow-sm border">
-                <div className="flex items-center space-x-1 mb-1">
-                  <div className="text-xs text-gray-500">{market.label}</div>
-                  <TrendingUp size={10} className="text-orange-500" />
-                </div>
-                <div className="text-sm font-medium text-gray-900 mb-1">{market.subtitle}</div>
-                <div className="text-xs text-gray-400">{market.count}</div>
-                {market.stake && (
-                  <div className="text-xs text-indigo-600 font-medium">{market.stake} staked</div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Claims Feed */}
         <div className="space-y-4 px-4 py-4">
           {claims?.map(claim => {
@@ -148,12 +112,7 @@ export default function Feed() {
         </div>
       </main>
 
-      <BottomNavigation onCreateClick={() => setCreateClaimOpen(true)} />
-      
-      <CreateClaimModal 
-        isOpen={createClaimOpen}
-        onClose={() => setCreateClaimOpen(false)}
-      />
+      <BottomNavigation />
     </div>
   );
 }
