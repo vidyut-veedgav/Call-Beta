@@ -119,15 +119,29 @@ export function ClaimCard({ claim, userBet }: ClaimCardProps) {
           <div className="relative w-full h-12 bg-gray-200 rounded-lg overflow-hidden flex items-center">
             {/* YES section (dark green) */}
             <div 
-              className="h-full bg-green-700 flex items-center justify-center text-white font-bold text-sm transition-all duration-300"
+              className="h-full bg-green-700 flex items-center justify-center text-white font-bold text-sm transition-all duration-300 cursor-pointer hover:bg-green-600"
               style={{ width: `${yesPercentage}%` }}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (!isExpired) {
+                  setSelectedPosition(true);
+                  setIsExpanded(true);
+                }
+              }}
             >
               <span>YES {yesPercentage}%</span>
             </div>
             {/* NO section (dark red) */}
             <div 
-              className="h-full bg-red-700 flex items-center justify-center text-white font-bold text-sm transition-all duration-300"
+              className="h-full bg-red-700 flex items-center justify-center text-white font-bold text-sm transition-all duration-300 cursor-pointer hover:bg-red-600"
               style={{ width: `${noPercentage}%` }}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (!isExpired) {
+                  setSelectedPosition(false);
+                  setIsExpanded(true);
+                }
+              }}
             >
               <span>NO {noPercentage}%</span>
             </div>
